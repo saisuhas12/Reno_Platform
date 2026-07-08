@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-[#f8fafc] text-slate-900;
+  }
+}
