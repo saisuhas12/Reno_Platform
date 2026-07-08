@@ -7,13 +7,13 @@ The application supports complete CRUD functionality with server-side validation
 ## Screenshots
 
 ### Home Page
-![Home](screenshots/home.png)
+![Home](images/home.png)
 
 ### Create Notice
-![Create](screenshots/create.png)
+![Create](images/create.png)
 
 ### Edit Notice
-![Edit](screenshots/edit.png)
+![Edit](images/edit.png)
 
 ## Features
 
@@ -193,11 +193,3 @@ AI tools were used to assist with:
 
 All generated code was manually reviewed, tested, modified where necessary, and verified against the assignment requirements. The application architecture, debugging, integration, and deployment were completed manually.
 
-## Future Improvements
-
-- Search notices
-- Filter by category
-- Pagination
-- Better image preview
-- Rich text editor
-- Unit and integration tests
