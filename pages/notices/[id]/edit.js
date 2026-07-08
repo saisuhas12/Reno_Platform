@@ -17,19 +17,19 @@ export default function EditNoticePage() {
 
     async function fetchNotice() {
       try {
-        const res = await fetch("/api/notices");
-        if (!res.ok) throw new Error();
-
-        const notices = await res.json();
-        const found = notices.find((n) => n.id === id);
-
-        if (!found) {
-          toast.error("Notice not found.");
+        const res = await fetch(`/api/notices/${id}`);
+        if (!res.ok) {
+          if (res.status === 404) {
+            toast.error("Notice not found.");
+          } else {
+            throw new Error();
+          }
           router.push("/");
           return;
         }
 
-        setNotice(found);
+        const data = await res.json();
+        setNotice(data);
       } catch {
         toast.error("Failed to load notice.");
         router.push("/");

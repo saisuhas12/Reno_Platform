@@ -4,6 +4,10 @@ import { validateNotice } from "@/lib/validation";
 export default async function handler(req, res) {
   const { id } = req.query;
 
+  if (req.method === "GET") {
+    return handleGet(id, res);
+  }
+
   if (req.method === "PUT") {
     return handlePut(id, req, res);
   }
@@ -12,8 +16,24 @@ export default async function handler(req, res) {
     return handleDelete(id, res);
   }
 
-  res.setHeader("Allow", "PUT, DELETE");
+  res.setHeader("Allow", "GET, PUT, DELETE");
   return res.status(405).json({ error: "Method not allowed." });
+}
+
+async function handleGet(id, res) {
+  try {
+    const notice = await prisma.notice.findUnique({
+      where: { id },
+    });
+
+    if (!notice) {
+      return res.status(404).json({ error: "Notice not found." });
+    }
+
+    return res.status(200).json(notice);
+  } catch (error) {
+    return res.status(500).json({ error: "Failed to fetch notice." });
+  }
 }
 
 async function handlePut(id, req, res) {

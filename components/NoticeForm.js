@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 import Spinner from "./Spinner";
 
 const CATEGORIES = [
@@ -19,6 +20,7 @@ function toDateInputValue(dateString) {
 }
 
 export default function NoticeForm({ initialData, onSubmit, loading }) {
+  const router = useRouter();
   const [title, setTitle] = useState(initialData?.title || "");
   const [body, setBody] = useState(initialData?.body || "");
   const [category, setCategory] = useState(initialData?.category || "GENERAL");
@@ -162,7 +164,7 @@ export default function NoticeForm({ initialData, onSubmit, loading }) {
       <div className="flex items-center justify-end gap-3 pt-2">
         <button
           type="button"
-          onClick={() => window.history.back()}
+          onClick={() => router.push("/")}
           disabled={loading}
           className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:opacity-50"
         >

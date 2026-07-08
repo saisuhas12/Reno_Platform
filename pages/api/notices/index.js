@@ -16,17 +16,12 @@ export default async function handler(req, res) {
 
 async function handleGet(_req, res) {
   try {
-    // MySQL / TiDB Cloud compatible explicit sorting by priority enum then publishDate
-    const notices = await prisma.$queryRaw`
-      SELECT * FROM \`Notice\`
-      ORDER BY 
-        CASE \`priority\`
-          WHEN 'URGENT' THEN 1
-          WHEN 'NORMAL' THEN 2
-          ELSE 3
-        END ASC,
-        \`publishDate\` DESC
-    `;
+    const notices = await prisma.notice.findMany({
+      orderBy: [
+        { priority: "desc" },
+        { publishDate: "desc" },
+      ],
+    });
 
     return res.status(200).json(notices);
   } catch (error) {
