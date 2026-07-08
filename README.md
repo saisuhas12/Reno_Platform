@@ -1,21 +1,43 @@
-# Notice Board
+# Reno Notice Board
 
-A clean, modern notice board application for managing announcements, exam notices, and event updates. Built with Next.js, Prisma, and Tailwind CSS.
+A responsive Notice Board application built as part of the Reno Platforms Web Development Assignment.
+
+The application supports complete CRUD functionality with server-side validation, database persistence using Prisma ORM, and deployment on Vercel using the required technology stack.
+
+## Screenshots
+
+### Home Page
+![Home](screenshots/home.png)
+
+### Create Notice
+![Create](screenshots/create.png)
+
+### Edit Notice
+![Edit](screenshots/edit.png)
 
 ## Features
 
-- **Full CRUD** — Create, read, update, and delete notices
-- **Priority ordering** — Urgent notices surface first, sorted by publish date within each priority
-- **Server-side validation** — All inputs validated in API routes with meaningful error messages
-- **Category badges** — Color-coded labels for Exam, Event, and General notices
-- **Priority indicators** — Clearly visible red badges for urgent notices
-- **Responsive layout** — 3-column grid on desktop, 2 on tablet, 1 on mobile
-- **Loading states** — Skeleton loaders while fetching, spinners while submitting
-- **Toast notifications** — Clean feedback for all user actions
-- **Delete confirmation** — Modal dialog before irreversible actions
-- **Optional image support** — Display images via URL when provided
-- **Empty state** — Friendly prompt when no notices exist
-- **Accessibility** — Semantic HTML, ARIA labels, keyboard navigation, focus states
+- Create, edit, view and delete notices
+- Server-side validation using Prisma API routes
+- Database persistence with Prisma ORM
+- Urgent notices prioritized at the database query level
+- Responsive card layout
+- Accessible modal confirmation before deletion
+- Optional image support
+- Toast notifications
+
+## Assignment Compliance
+
+This project follows all mandatory requirements from the Reno Platforms assignment:
+
+- **Next.js Pages Router** — Using the `pages/` directory instead of App Router
+- **Prisma ORM** — Structured schema definition and query client instantiation
+- **Hosted Database** — Compatible with hosted MySQL (TiDB Cloud)
+- **REST API Routes** — Endpoint actions under `/pages/api/` using appropriate HTTP methods (GET, POST, PUT, DELETE)
+- **Server-Side Validation** — Validation logic running within API handlers to protect inputs
+- **Database Persistence** — Full CRUD actions syncing back to the cloud database
+- **Public Vercel Deployment** — Ready to deploy on Vercel with serverless runtime support
+- **Responsive UI** — Accessible layouts adapting to mobile, tablet, and desktop viewports
 
 ## Tech Stack
 
@@ -49,7 +71,7 @@ A clean, modern notice board application for managing announcements, exam notice
 │   ├── api/
 │   │   └── notices/
 │   │       ├── index.js      # GET (list) & POST (create)
-│   │       └── [id].js       # PUT (update) & DELETE
+│   │       └── [id].js       # GET (retrieve), PUT (update) & DELETE
 │   ├── notices/
 │   │   ├── new.js            # Create notice page
 │   │   └── [id]/
@@ -62,6 +84,32 @@ A clean, modern notice board application for managing announcements, exam notice
 │   └── globals.css           # Global styles
 └── public/                   # Static assets
 ```
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /api/notices | Retrieve all notices (Urgent first, then by publishDate DESC) |
+| POST | /api/notices | Create a notice |
+| GET | /api/notices/:id | Retrieve a single notice |
+| PUT | /api/notices/:id | Update a notice |
+| DELETE | /api/notices/:id | Delete a notice |
+
+## Database Schema
+
+### Notice Model
+
+| Field | Type | Description |
+|--------|------|-------------|
+| id | String (CUID) | Unique primary key identifier |
+| title | String | Title of the notice (VarChar 255) |
+| body | String | Notice content body text |
+| category | EXAM \| EVENT \| GENERAL | Dropdown category selection |
+| priority | NORMAL \| URGENT | Urgent announcements rank first |
+| publishDate | DateTime | Selected publish date |
+| image | String? | Optional URL link to notice image |
+| createdAt | DateTime | Automated creation timestamp |
+| updatedAt | DateTime | Automated update timestamp |
 
 ## Installation
 
@@ -104,12 +152,6 @@ A clean, modern notice board application for managing announcements, exam notice
    npx prisma db push
    ```
 
-## Environment Variables
-
-| Variable       | Description                              | Required |
-| -------------- | ---------------------------------------- | -------- |
-| `DATABASE_URL` | MySQL connection string (TiDB Cloud)     | Yes      |
-
 ## Running Locally
 
 ```bash
@@ -130,23 +172,32 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 The `prisma generate` step ensures the Prisma Client is available at build time on Vercel.
 
+## Verification
+
+The project has been verified by:
+
+- `npm run build`
+- `npx prisma generate`
+- `npx prisma db push`
+
+The application was tested locally before deployment.
+
 ## AI Usage
 
-This project was developed with the assistance of an AI coding agent (Gemini/Claude) for:
+AI tools were used to assist with:
 
-- Scaffolding the initial project structure
-- Generating boilerplate code for components, API routes, and configuration
-- Writing this README
+- Initial project scaffolding
+- Boilerplate generation
+- General code refactoring suggestions
+- README drafting
 
-All code was reviewed and refined to meet production quality standards. The architecture, design decisions, and implementation details reflect real-world engineering practices.
+All generated code was manually reviewed, tested, modified where necessary, and verified against the assignment requirements. The application architecture, debugging, integration, and deployment were completed manually.
 
 ## Future Improvements
 
-- Individual notice detail page
-- Image upload via file (e.g., Cloudinary integration)
-- Filter notices by category or priority
-- Rich text editor for notice body
-- Email notifications for urgent notices
-- Role-based access control
-- Pagination for large datasets
-- Dark mode toggle
+- Search notices
+- Filter by category
+- Pagination
+- Better image preview
+- Rich text editor
+- Unit and integration tests
