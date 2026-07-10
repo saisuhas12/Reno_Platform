@@ -17,10 +17,16 @@ export default function NewNoticePage() {
         body: JSON.stringify(data),
       });
 
-      const result = await res.json();
-
       if (!res.ok) {
-        throw new Error(result.error || "Failed to create notice.");
+        let errMsg = "Failed to create notice.";
+        try {
+          const contentType = res.headers.get("content-type");
+          if (contentType && contentType.includes("application/json")) {
+            const result = await res.json();
+            errMsg = result.error || errMsg;
+          }
+        } catch (_) {}
+        throw new Error(errMsg);
       }
 
       toast.success("Notice created.");

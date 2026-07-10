@@ -10,6 +10,7 @@ export default function Layout({ children }) {
         <meta name="description" content="A clean, modern notice board for managing announcements, exams, and events." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" href="/favicon.png" />
       </Head>
 
       <div className="min-h-screen bg-[#f8fafc]">

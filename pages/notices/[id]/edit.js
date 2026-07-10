@@ -50,10 +50,16 @@ export default function EditNoticePage() {
         body: JSON.stringify(data),
       });
 
-      const result = await res.json();
-
       if (!res.ok) {
-        throw new Error(result.error || "Failed to update notice.");
+        let errMsg = "Failed to update notice.";
+        try {
+          const contentType = res.headers.get("content-type");
+          if (contentType && contentType.includes("application/json")) {
+            const result = await res.json();
+            errMsg = result.error || errMsg;
+          }
+        } catch (_) {}
+        throw new Error(errMsg);
       }
 
       toast.success("Notice updated.");
